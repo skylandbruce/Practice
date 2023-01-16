@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
  * @author bruce
  *
  */
+ // Crative Comment
 public class SwingPanel {
 
 	public SwingPanel() {
