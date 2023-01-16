@@ -65,7 +65,7 @@ public class HighLowGame {
 				go_stop = false;
 
 		} while (go_stop);
-
+		scanner.close();
 	}
 
 }
