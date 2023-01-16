@@ -30,7 +30,8 @@ public class HighLowGame {
 			
 		
 			do/*while(go_stop*)*/ {
-				
+				++n_cnt; // 카운터 위치 이동
+
 				System.out.print("숫자 입력:");
 				man_num = scanner.nextInt();
 				
@@ -50,7 +51,7 @@ public class HighLowGame {
 					System.out.println("범위 밖");
 					continue;
 				}
-				++n_cnt;
+				
 			}while(go_stop);
 
 	
