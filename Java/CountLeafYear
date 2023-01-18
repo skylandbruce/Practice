@@ -1,0 +1,32 @@
+//import javax.swing.JOptionPane;
+import java.util.Scanner;
+
+public class CountLeafYear {
+
+	public CountLeafYear() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String TITLE0="연도를 입력 하시오\n종료는 0을 누르시오2";
+		String str_num=null;
+		int CurrYear=0;
+		String str_year=null;
+		//
+        System.out.println("TITLE0");
+        Scanner scanner=new Scanner();
+		CurrYear=scanner.nextInt();
+        int cnt_Year=0;
+		//str_num=JOptionPane.showInputDialog(TITLE0);
+		//CurrYear=Integer.parseInt(str_num);
+		for(int check_Year=1; check_Year<=CurrYear; check_Year++){    
+        if(CurrYear==0)break;
+        cnt_Year+=(CurrYear%4==0 && CurrYear%100!=0 || CurrYear%400==0 )?1:0;
+		//str_year = (CurrYear%4==0 && CurrYear%100!=0 || CurrYear%400==0 )?"윤년":"평년";
+		System.out.println(CurrYear);
+	    }	
+    
+	}
+
+}
