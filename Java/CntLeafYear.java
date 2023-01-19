@@ -34,9 +34,10 @@ public class CntLeafYear {
 		int week_sum=1;
 		int next_week_end=0;
 		//1년1월1일 은 월요일 
-		//평년:365 윤년366
+		//평년:365 윤년366(윤년 2월은 하루 추가)
 		//매달 1일의 요일은 전달까지의 일수%7
 		//1월 1일이 월요일인 해는 해+=(평년 일%7+윤년 일)
+		
 						
 		for (int check_year = 1; check_year <= year_curr; check_year++) {
 			if (year_curr == 0)
