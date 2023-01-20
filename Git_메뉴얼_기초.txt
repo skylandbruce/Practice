@@ -1,0 +1,25 @@
+*설치
+-GitHub.com 계정 등록하기
+-공유 Public Repository 생성
+-https://git-scm.com/ 에서 Git Client 다운로드 설치
+
+*git bash 실행 후, 설정 
+//주의!!! GitHub.com 에 등록한 계정 정보를 입력해야 함!
+git config --global user.email "email@email.com"
+git config --global user.name "GitHub_ID"
+
+*서버에서 가져오기
+-git GUI 실행 후, git bash 실행
+git pull Public_Repository_URL main
+-main 은 기본 branch를 의미, 
+-Git Client 설치시 기본 branch를 master(default)로 했으면 master 로
+-------------------
+만약 Public_Repository_URL 가 origin 으로 alias 되어 있으면 origin으로 대체 가능
+예)
+git pull origin main
+
+*서버로 다시 올리기
+git GUI client 실행 후 오른편 아래 버튼을 차례로 수행
+-Stage Changed
+-Commit   //주의!!!! 반드시 Commit Message 입력해야 함
+-Push  
