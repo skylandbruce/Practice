@@ -1,6 +1,7 @@
 *설치
 -GitHub.com 계정 등록하기
--공유 Public Repository 생성
+-공유 Public Repository 원하는 이름으로 생성
+-홈페이지에서 Repository에 테스트 파일들을 추가해 본다.
 -https://git-scm.com/ 에서 Git Client 다운로드 설치
 
 *git bash 실행 후, 설정 
@@ -8,14 +9,22 @@
 git config --global user.email "email@email.com"
 git config --global user.name "GitHub_ID"
 
-*서버에서 가져오기
--git GUI 실행 후, git bash 실행
+git config --list 로 추가한 내용이 잘 들어 갔는지 확인 필요.
+
+*서버에서 Repository 내용 가져오기
+---처음만---
+Git GUI 실행후 Clone Existing Repository 실행
+"Source Location" 란에 GitHub.com 에서 만든 Repository 주소를 입력
+"Target Directory" 란에 컴퓨터에 저장하고픈 D:/Directory명을 선택
+
+---
+-git GUI 실행 후, git bash 실행 창에서
 git pull Public_Repository_URL main
--main 은 기본 branch를 의미, 
+-"main" 은 기본 branch 명 이므로, 
 -Git Client 설치시 기본 branch를 master(default)로 했으면 master 로
 -------------------
 만약 Public_Repository_URL 가 origin 으로 alias 되어 있으면 origin으로 대체 가능
-예)
+예>
 git pull origin main
 
 *서버로 다시 올리기

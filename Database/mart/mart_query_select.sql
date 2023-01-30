@@ -68,12 +68,15 @@ where customer.c_id=orders.c_id;
 
 
 # 주문 테이블의 고객코드에 ㅎ당하는 고객이름을 찾아, 주문번호, 고객코드, 고객이름, 주문날짜, 주문수량을 출력하라
-select o_idx, customer.c_id, c_name, o_date, orders.o_count, 
+select o_idx, customer.c_id, c_name, o_date, orders.o_count 
 from orders, customer
 where customer.c_id=orders.c_id;
 
 
 # 주문 테이블의 고객코드에 ㅎ당하는 고객이름을 찾아, 주문번호, 고객코드, 고객이름, 주문제품, 주문수량, 주문단가를 출력하라
+select o_idx, customer.c_id, c_name, orders.p_code, orders.o_count, product.p_ucost 
+from orders, customer, product
+where customer.c_id=orders.c_id ;
 
 # 주문 테이블의 고객코드에 ㅎ당하는 고객이름을 찾아, 주문번호, 고객코드, 고객이름, 주문제품, 주문금액을 출력하라
 
