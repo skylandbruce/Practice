@@ -1,7 +1,13 @@
  
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.KeyEvent;
+
+/* 
+ import java.awt.*;
+ import javax.swing.*;
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,83 +28,95 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.event.MouseInputAdapter;
 
-import org.w3c.dom.events.MouseEvent;
 
-public class Memo extends JFrame implements MouseEvent{
+public class Memo extends JFrame{
     JTextArea ta;
     JTextPane tp;
     File f;
     public Memo(String title) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JMenu mfile=new JMenu("파일");
+        JMenu m_file=new JMenu("파일(AF)");
+        m_file.setMnemonic('F');
+        //m_file.setMnemonic(KeyEvent.VK_F); // 단축키 Alt + F 설정
+        JMenuItem m_open=new JMenuItem("열기(O)");
+        m_open.setMnemonic('O');
+        JMenuItem m_new=new JMenuItem("새파일(N)");
+        m_open.setMnemonic('N');
+        JMenuItem m_save=new JMenuItem("저장(S)");
+        m_open.setMnemonic('S');
+        JMenuItem m_save_as=new JMenuItem("다른이름으로 저장(AS)");
+        JMenuItem m_exit=new JMenuItem("끝내기");
         
-        JMenuItem mOpen=new JMenuItem("열기");
-        JMenuItem mNew=new JMenuItem("새파일");
-        JMenuItem mSave=new JMenuItem("저장");
-        JMenuItem mSaveAs=new JMenuItem("다른이름으로 저장");
-        JMenuItem mExit=new JMenuItem("끝내기");
+        m_file.add(m_open);
+        m_file.add(m_new);
+        m_file.add(m_save);
+        m_file.add(m_save_as);
+        m_file.addSeparator();
+        m_file.add(m_exit);
         
-        mfile.add(mOpen);
-        mfile.add(mNew);
-        mfile.add(mSave);
-        mfile.add(mSaveAs);
-        mfile.addSeparator();
-        mfile.add(mExit);
+        // 색상
+        JMenu m_color=new JMenu("색상");
+        
+        JMenuItem m_item1=new JMenuItem("빨강");
+        JMenuItem m_item2=new JMenuItem("파랑");
+        JMenuItem m_item3=new JMenuItem("노랑");
+        
+        m_color.add(m_item1);
+        m_color.add(m_item2);
+        m_color.add(m_item3);
         
         // 편집
-        JMenu mEdit=new JMenu("편집");
-        
-        JMenuItem mItem1=new JMenuItem("빨강");
-        JMenuItem mItem2=new JMenuItem("파랑");
-        
-        mEdit.add(mItem1);
-        mEdit.add(mItem2);
-        // 색상
-        JMenu mColor=new JMenu("색상");
+        JMenu m_edit=new JMenu("편집");
         
         ButtonGroup group = new ButtonGroup();
         
-        JMenuItem m_t_color=new JMenuItem("아이콘 보기");
+        JMenuItem m_title1=new JMenuItem("아이콘 보기");
         JRadioButton m_rd1=new JRadioButton("라디오1");
         JRadioButton m_rd2=new JRadioButton("라디오2");
         group.add(m_rd1);
         group.add(m_rd2);
         
-        JMenuItem m_sub_t=new JMenuItem("서브메뉴");
-
+        
         ImageIcon Image=new ImageIcon("D:\\Git\\JavaGUI\\ref\\1_talk.jpg");
         JCheckBox m_sub_check = new JCheckBox("체크박스");
 		JCheckBox m_sub_image_check = new JCheckBox("이미지 체크", Image);
-        m_sub_t.add(m_sub_check);
-        // m_sub_t.add(m_sub_image_check);
+        
+        
+        JMenu m_sub_t=new JMenu("서브메뉴");
+        
+        JMenuItem m_sub_item1=new JMenuItem("서브1");
+        JMenuItem m_sub_item2=new JMenuItem("서브2");
 
-        mColor.add(m_t_color);
-        mColor.add(m_rd1);
-        mColor.add(m_rd2);
-        // mColor.add(m_sub_t);
-        mColor.add(m_sub_image_check);
-        mColor.add(m_sub_check);
-        // m_t_color.addSeparator();
+        
+        m_sub_t.add(m_sub_item1);
+        m_sub_t.add(m_sub_item2);
+        
+        m_edit.add(m_title1);
+        m_edit.addSeparator();
+        m_edit.add(m_rd1);
+        m_edit.add(m_rd2);
+        m_edit.add(m_sub_image_check);
+        m_edit.add(m_sub_check);
+        m_edit.addSeparator();
+        m_edit.add(m_sub_t);
 
 
 
         
  /////////////메뉴바/////////////       
         JMenuBar mb=new JMenuBar();
-        mb.add(mfile);
-        mb.add(mEdit);
-        mb.add(mColor);
+        mb.add(m_file);
+        mb.add(m_edit);
+        mb.add(m_color);
         setJMenuBar(mb);
         
-        // ta=new JTextArea();
-        tp = new JTextPane();
+        ta=new JTextArea();
+        // tp = new JTextPane();
 //        JScrollPane scroll_pain=new JScrollPane(ta);
-//        JScrollPane scroll_pain=new JScrollPane();
-//        scroll_pain.setViewportView(ta);
-//        add(ta);
+        JScrollPane scroll_pain=new JScrollPane();
+        scroll_pain.setViewportView(ta);
         
 
         JPopupMenu pop_menu=new JPopupMenu();
@@ -108,14 +126,14 @@ public class Memo extends JFrame implements MouseEvent{
         pop_menu.add(pop_m_copy);
         pop_menu.add(pop_m_cut);
         pop_menu.add(pop_m_paste);
-        tp.add(pop_menu);
+        ta.add(pop_menu);
 
         //add(scroll_pain);
-        add(tp);
+        add(ta);
 
 
         //새파일
-        mNew.addActionListener(new ActionListener() {
+        m_new.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
                 ta.setText("");
@@ -124,7 +142,7 @@ public class Memo extends JFrame implements MouseEvent{
         });
         
         //열기 (선택된 파일을 읽어들이기. fileread)
-        mOpen.addActionListener(new ActionListener() {
+        m_open.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fc=new JFileChooser();
@@ -137,7 +155,7 @@ public class Memo extends JFrame implements MouseEvent{
         });
  
         //저장 (기존파일 없음=제목없음이면 새 창을 띄우기)
-        mSave.addActionListener(new ActionListener() {
+        m_save.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
                 if(getTitle().equals("제목없음")) { 
@@ -147,7 +165,7 @@ public class Memo extends JFrame implements MouseEvent{
 //                    f=fc.getSelectedFile();
 //                    fileSave(f);
 //                    setTitle(f.getName());
-                    mSaveAs.doClick(); //mSaveAs가 다시 실행되는 것과 같음.
+                    m_save_as.doClick(); //mSaveAs가 다시 실행되는 것과 같음.
                 }else {    //기존파일 있음
                     fileSave(f);
                 }
@@ -155,7 +173,7 @@ public class Memo extends JFrame implements MouseEvent{
         });
  
         //새이름 저장
-        mSaveAs.addActionListener(new ActionListener() {
+        m_save_as.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fc=new JFileChooser();
@@ -169,7 +187,7 @@ public class Memo extends JFrame implements MouseEvent{
         });
         
         //끝내기
-        mExit.addActionListener(new ActionListener() {
+        m_exit.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -177,18 +195,63 @@ public class Memo extends JFrame implements MouseEvent{
         });
         
     
-        final int MS_BUTTOM_PUSH =1;
-        final int MS_BUTTOM_LEFT =2;
+        final int MS_BUTTOM_LEFT =1;
+        final int MS_SCROLL_PUSH =2;
         final int MS_BUTTOM_RIGHT =3;
+/* 
+        ta.addMouseListener(new MouseListener(){
+            // public void mousePressed(MouseEvent e){
+                
+            //         //pop_menu.show();
+            // }
 
-        // tp.addMouseListener(new MouseListener(){
-        //     public void mousePressed(MouseEvent e){
-        //         if(e.getButton()==MS_BUTTOM_RIGHT)
-        //             pop_menu.show(tp, e.getX(), e.getY());
-        //             //pop_menu.show();
-        //     }
-        // });
-        
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                // TODO Auto-generated method stub
+                if(e.getButton()==MS_BUTTOM_RIGHT)
+                    pop_menu.show(ta, e.getX(), e.getY());
+                
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+ */
+
+        ta.addMouseListener(new MouseAdapter(){
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                // TODO Auto-generated method stub
+                if(e.getButton()==MS_BUTTOM_RIGHT)
+                    pop_menu.show(ta, e.getX(), e.getY());
+                
+            }
+
+        });
+
+
+           
+
         setSize(500,400);
         setVisible(true);
         
