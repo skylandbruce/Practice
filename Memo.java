@@ -1,13 +1,7 @@
- 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.KeyEvent;
-
-/* 
- import java.awt.*;
- import javax.swing.*;
- */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,45 +10,114 @@ import java.io.PrintStream;
 import java.io.StringWriter;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoManager;
+
+
+/* 
+import org.w3c.dom.events.Event;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+ */
 
 
 public class Memo extends JFrame{
+
+    final int SHIFT_MASK          = 1 << 0;
+    final int CTRL_MASK           = 1 << 1;
+    final int META_MASK           = 1 << 2;
+    final int ALT_MASK            = 1 << 3;
+
+
     JTextArea ta;
     JTextPane tp;
     File f;
+
+    UndoManager undo_manager;
     public Memo(String title) {
+        undo_manager=new UndoManager();
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JMenu m_file=new JMenu("파일(AF)");
         m_file.setMnemonic('F');
         //m_file.setMnemonic(KeyEvent.VK_F); // 단축키 Alt + F 설정
+        JMenuItem m_new_note=new JMenuItem("새파일(N)");
+        m_new_note.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_MASK));
+        JMenuItem m_new_window=new JMenuItem("새창(W)");
+        m_new_window.setAccelerator(KeyStroke.getKeyStroke('W', CTRL_MASK));
+
         JMenuItem m_open=new JMenuItem("열기(O)");
-        m_open.setMnemonic('O');
-        JMenuItem m_new=new JMenuItem("새파일(N)");
-        m_open.setMnemonic('N');
+        m_open.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_MASK));
         JMenuItem m_save=new JMenuItem("저장(S)");
-        m_open.setMnemonic('S');
+        m_save.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_MASK));
         JMenuItem m_save_as=new JMenuItem("다른이름으로 저장(AS)");
-        JMenuItem m_exit=new JMenuItem("끝내기");
+        m_save_as.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_MASK|SHIFT_MASK));
+        // m_save_as.setMnemonic(KeyEvent.VK_F);
+        JMenuItem m_print=new JMenuItem("인쇄(P)");
+        m_print.setAccelerator(KeyStroke.getKeyStroke('P', CTRL_MASK));
         
+        JMenuItem m_exit=new JMenuItem("끝내기");
+        m_exit.setAccelerator(KeyStroke.getKeyStroke('X', CTRL_MASK));
+        
+        m_file.add(m_new_note);
+        m_file.add(m_new_window);
         m_file.add(m_open);
-        m_file.add(m_new);
         m_file.add(m_save);
         m_file.add(m_save_as);
         m_file.addSeparator();
+        m_file.add(m_print);
+        m_file.addSeparator();
         m_file.add(m_exit);
+        
+        
+        // 편집
+        JMenu m_edit=new JMenu("편집");
+        
+        ButtonGroup group = new ButtonGroup();
+        
+        JMenuItem m_undo=new JMenuItem("실행취소");
+        m_undo.setAccelerator(KeyStroke.getKeyStroke('Z', CTRL_MASK));
+        JMenuItem m_redo=new JMenuItem("다시실행");
+        m_redo.setAccelerator(KeyStroke.getKeyStroke('Y', CTRL_MASK));
+        JMenuItem m_cut=new JMenuItem("잘라내기");
+        m_cut.setAccelerator(KeyStroke.getKeyStroke('X', CTRL_MASK));
+        JMenuItem m_copy=new JMenuItem("복사");
+        m_copy.setAccelerator(KeyStroke.getKeyStroke('C', CTRL_MASK));
+        JMenuItem m_paste=new JMenuItem("붙혀넣기");
+        m_paste.setAccelerator(KeyStroke.getKeyStroke('V', CTRL_MASK));
+        JMenuItem m_del=new JMenuItem("삭제");
+        m_del.setAccelerator(KeyStroke.getKeyStroke('D', CTRL_MASK));
+        JMenuItem m_search=new JMenuItem("찾기");
+        
+        JMenuItem m_select_all=new JMenuItem("모두선택");
+        m_select_all.setAccelerator(KeyStroke.getKeyStroke('A', CTRL_MASK));
+        JMenuItem m_day_time=new JMenuItem("시간/날짜");
+        
+        
+        m_edit.add(m_undo);
+        m_edit.add(m_redo);
+        m_edit.add(m_cut);
+        m_edit.add(m_copy);
+        m_edit.addSeparator();
+        m_edit.add(m_paste);
+        m_edit.add(m_del);
+        m_edit.addSeparator();
+        m_edit.add(m_search);
+        m_edit.add(m_select_all);
+        m_edit.add(m_day_time);
         
         // 색상
         JMenu m_color=new JMenu("색상");
@@ -67,43 +130,6 @@ public class Memo extends JFrame{
         m_color.add(m_item2);
         m_color.add(m_item3);
         
-        // 편집
-        JMenu m_edit=new JMenu("편집");
-        
-        ButtonGroup group = new ButtonGroup();
-        
-        JMenuItem m_title1=new JMenuItem("아이콘 보기");
-        JRadioButton m_rd1=new JRadioButton("라디오1");
-        JRadioButton m_rd2=new JRadioButton("라디오2");
-        group.add(m_rd1);
-        group.add(m_rd2);
-        
-        
-        ImageIcon Image=new ImageIcon("D:\\Git\\JavaGUI\\ref\\1_talk.jpg");
-        JCheckBox m_sub_check = new JCheckBox("체크박스");
-		JCheckBox m_sub_image_check = new JCheckBox("이미지 체크", Image);
-        
-        
-        JMenu m_sub_t=new JMenu("서브메뉴");
-        
-        JMenuItem m_sub_item1=new JMenuItem("서브1");
-        JMenuItem m_sub_item2=new JMenuItem("서브2");
-
-        
-        m_sub_t.add(m_sub_item1);
-        m_sub_t.add(m_sub_item2);
-        
-        m_edit.add(m_title1);
-        m_edit.addSeparator();
-        m_edit.add(m_rd1);
-        m_edit.add(m_rd2);
-        m_edit.add(m_sub_image_check);
-        m_edit.add(m_sub_check);
-        m_edit.addSeparator();
-        m_edit.add(m_sub_t);
-
-
-
         
  /////////////메뉴바/////////////       
         JMenuBar mb=new JMenuBar();
@@ -121,8 +147,11 @@ public class Memo extends JFrame{
 
         JPopupMenu pop_menu=new JPopupMenu();
         JMenuItem pop_m_copy=new JMenuItem("복사");
+        pop_m_copy.setAccelerator(KeyStroke.getKeyStroke('C', CTRL_MASK));
         JMenuItem pop_m_cut=new JMenuItem("잘라내기");
+        pop_m_cut.setAccelerator(KeyStroke.getKeyStroke('X', CTRL_MASK));
         JMenuItem pop_m_paste=new JMenuItem("붙혀넣기");
+        pop_m_paste.setAccelerator(KeyStroke.getKeyStroke('P', CTRL_MASK));
         pop_menu.add(pop_m_copy);
         pop_menu.add(pop_m_cut);
         pop_menu.add(pop_m_paste);
@@ -133,11 +162,14 @@ public class Memo extends JFrame{
 
 
         //새파일
-        m_new.addActionListener(new ActionListener() {
+        m_new_note.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
-                ta.setText("");
-                setTitle("제목없음");
+                ta.setText(null);
+                ta.requestFocus();
+                setTitle("메모장");
+                setBackground(Color.YELLOW); // 시안
+                ta.cut();
             }
         });
         
@@ -172,6 +204,9 @@ public class Memo extends JFrame{
             }
         });
  
+
+
+        
         //새이름 저장
         m_save_as.addActionListener(new ActionListener() {
             
@@ -193,29 +228,55 @@ public class Memo extends JFrame{
                 System.exit(0);
             }
         });
+
+        ////////Undo, Redo////////////
+        ta.getDocument().addUndoableEditListener(new UndoableEditListener() {
+            
+            public void undoableEditHappend(UndoableEditEvent e) {
+                undo_managet.addEdit(e.getEdit());
+            }
+        });
         
+        
+        pop_m_copy.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ta.copy();
+            }
+        });
+        
+        
+        pop_m_cut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ta.cut();
+            }
+        });
+
+
+        pop_m_paste.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ta.paste();
+            }
+        });
     
-        final int MS_BUTTOM_LEFT =1;
-        final int MS_SCROLL_PUSH =2;
-        final int MS_BUTTOM_RIGHT =3;
-/* 
+
+        /* 
         ta.addMouseListener(new MouseListener(){
             // public void mousePressed(MouseEvent e){
                 
-            //         //pop_menu.show();
-            // }
-
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                // TODO Auto-generated method stub
+                //         //pop_menu.show();
+                // }
                 
-            }
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    
+                }
 
             @Override
             public void mousePressed(java.awt.event.MouseEvent e) {
                 // TODO Auto-generated method stub
                 if(e.getButton()==MS_BUTTOM_RIGHT)
-                    pop_menu.show(ta, e.getX(), e.getY());
+                pop_menu.show(ta, e.getX(), e.getY());
                 
             }
 
@@ -224,7 +285,7 @@ public class Memo extends JFrame{
                 // TODO Auto-generated method stub
                 
             }
-
+            
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
                 // TODO Auto-generated method stub
@@ -237,13 +298,17 @@ public class Memo extends JFrame{
                 
             }
         });
- */
+        */
+        
+        final int MS_BUTTOM_LEFT =1;
+        final int MS_SCROLL_PUSH =2;
+        final int MS_BUTTOM_RIGHT =3;
 
         ta.addMouseListener(new MouseAdapter(){
             public void mousePressed(java.awt.event.MouseEvent e) {
                 // TODO Auto-generated method stub
                 if(e.getButton()==MS_BUTTOM_RIGHT)
-                    pop_menu.show(ta, e.getX(), e.getY());
+                pop_menu.show(ta, e.getX(), e.getY());
                 
             }
 
@@ -258,7 +323,7 @@ public class Memo extends JFrame{
     }
  
     public static void main(String[] args) {
-        new Memo("제목없음");
+        new Memo("메모장");
     }
     
     //파일 읽기 메소드
