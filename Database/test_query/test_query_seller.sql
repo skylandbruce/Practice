@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `test_query` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `test_query`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: test_query
@@ -25,12 +23,12 @@ DROP TABLE IF EXISTS `seller`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `seller` (
-  `idx` int NOT NULL AUTO_INCREMENT,
+  `s_idx` int NOT NULL AUTO_INCREMENT,
   `s_code` varchar(45) DEFAULT NULL,
   `s_name` varchar(45) DEFAULT NULL,
   `s_grade` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idx`),
-  UNIQUE KEY `idx_UNIQUE` (`idx`),
+  PRIMARY KEY (`s_idx`),
+  UNIQUE KEY `idx_UNIQUE` (`s_idx`),
   UNIQUE KEY `s_code_UNIQUE` (`s_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-20  7:01:38
+-- Dump completed on 2023-02-17 18:02:51

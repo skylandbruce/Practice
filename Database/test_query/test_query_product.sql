@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `test_query` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `test_query`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: test_query
@@ -33,7 +31,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`p_idx`),
   UNIQUE KEY `idx_UNIQUE` (`p_idx`),
   UNIQUE KEY `p_code_UNIQUE` (`p_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +40,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'p01','product01','m01','s01'),(2,'p02','product02','m02','s02'),(3,'p03','product03','m03','s03'),(4,'p04','product04','m01','s02'),(5,'p05','product05','m02','s01');
+INSERT INTO `product` VALUES (1,'p01','product01','m01','s01'),(2,'p02','product02','m02','s02'),(3,'p03','product03','m03','s03'),(4,'p04','product04','m01','s01'),(5,'p05','product05','m02','s02'),(6,'p06','product06','m01','s04');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-20  7:01:37
+-- Dump completed on 2023-02-17 18:02:51

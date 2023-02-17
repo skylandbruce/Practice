@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `test_query` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `test_query`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: test_query
@@ -32,7 +30,7 @@ CREATE TABLE `orders` (
   `p_code` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`o_idx`),
   UNIQUE KEY `o_idx_UNIQUE` (`o_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +39,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'c01','2022-01-13 00:00:00',1,'p01'),(2,'c02','2022-01-14 00:00:00',2,'p02'),(3,'c03','2022-12-11 00:00:00',3,'p03'),(4,'c04','2022-01-13 00:00:00',4,'p04'),(5,'c03','2023-01-14 00:00:00',3,'p03'),(6,'c02','2023-01-15 00:00:00',2,'p02'),(7,'c04','2023-01-16 00:00:00',1,'p01'),(8,'c02','2023-01-18 00:00:00',4,'p05');
+INSERT INTO `orders` VALUES (1,'c01','2022-01-13 00:00:00',1,'p01'),(2,'duck','2022-01-14 00:00:00',2,'p02'),(3,'lion','2022-12-11 00:00:00',3,'p03'),(4,'duck','2022-01-13 00:00:00',4,'p04'),(5,'lion','2023-01-14 00:00:00',3,'p03'),(6,'duck','2023-01-15 00:00:00',2,'p02'),(7,'cat','2023-01-16 00:00:00',1,'p01'),(8,'turtle','2023-01-18 00:00:00',4,'p05'),(9,'db_test1','2023-02-11 00:00:00',2,'p1');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-20  7:01:37
+-- Dump completed on 2023-02-17 18:02:52

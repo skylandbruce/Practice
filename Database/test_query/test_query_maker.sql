@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `test_query` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `test_query`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: test_query
@@ -25,14 +23,12 @@ DROP TABLE IF EXISTS `maker`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `maker` (
-  `m_idx` int NOT NULL AUTO_INCREMENT,
-  `m_code` varchar(45) DEFAULT NULL,
+  `m_code` varchar(45) NOT NULL,
   `m_name` varchar(45) DEFAULT NULL,
   `m_location` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`m_idx`),
-  UNIQUE KEY `m_idx_UNIQUE` (`m_idx`),
+  PRIMARY KEY (`m_code`),
   UNIQUE KEY `m_code_UNIQUE` (`m_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +37,7 @@ CREATE TABLE `maker` (
 
 LOCK TABLES `maker` WRITE;
 /*!40000 ALTER TABLE `maker` DISABLE KEYS */;
-INSERT INTO `maker` VALUES (1,'m01','maker01','korea'),(2,'m02','maker02','china'),(3,'m03','maker03','japan');
+INSERT INTO `maker` VALUES ('m01','maker01','korea'),('m02','maker02','china'),('m03','maker03','japan');
 /*!40000 ALTER TABLE `maker` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-20  7:01:37
+-- Dump completed on 2023-02-17 18:02:52
